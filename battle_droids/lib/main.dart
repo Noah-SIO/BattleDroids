@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'dart:math';
+
 
 void main() {
   runApp(const MyApp());
@@ -118,5 +121,96 @@ class _MyHomePageState extends State<MyHomePage> {
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+}
+
+class Robot {
+  String _nom;
+  int _health;
+  int _attack;
+  int _defense;
+  int _argent;
+
+
+
+  Robot(this._nom, this._health, this._attack, this._defense, this._argent);
+
+
+  String getNom() {
+    return this._nom;
+  }
+
+  int getHealth() {
+    return this._health;
+  }
+
+  int getAttack() {
+    return this._attack;
+  }
+
+  int getDefense() {
+    return this._defense;
+  }
+
+  void setNom(String nom) {
+    this._nom = nom;
+  }
+
+  void setHealth(int health) {
+    this._health = health;
+  } 
+
+  void setAttack(int attack) {
+    this._attack = attack;
+  } 
+
+  void setDefense(int defense) {
+    this._defense = defense;
+  } 
+
+  void setArgent(int argent) {
+    this._argent = argent;
+  }
+
+  int getArgent() {
+    return this._argent;
+  } 
+}
+
+
+class Objet{
+  Map<String, Objet> _listeObjet = {
+    "potion de soin": Objet("potion", 10, 1, 10),
+    "Armure en Fer": Objet("potion", 10, 2, 10),
+    "Pistolet Mitrailleur": Objet("potion", 10, 3, 10), //...
+  };
+  int prix;
+  String nom;
+  int type; //soin,defense,attack 1/2/3
+  int point;
+
+  Objet(this.nom, this.prix, this.type, this.point);
+
+  String getNom(){
+    return this.nom;
+  }
+
+  int getPrix(){
+    return this.prix;
+  }
+
+  int getType(){
+    return this.type;
+  }
+
+  int getPoint(){
+    return this.point;
+  }
+
+  void AfficherListeObjet(){
+    for(int i=0; i<_listeObjet.length; i++){ //listeObjet[0]
+      
+    }
+
   }
 }
