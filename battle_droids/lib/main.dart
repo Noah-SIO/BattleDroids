@@ -15,12 +15,17 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => MyAppState(),
       child: MaterialApp(
-        title: 'Namer App',
+        title: 'BattleDroids',
+        routes: {
+        '/': (context) => MyHomePage(),
+        '/shopskill': (context) => ShopSkillPage(),
+        // '/third': (context) => ThirdPage(),
+        },
+        initialRoute:'/',
         theme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
         ),
-        home: MyHomePage(),
       ),
     );
   }
@@ -28,6 +33,16 @@ class MyApp extends StatelessWidget {
 
 class MyAppState extends ChangeNotifier {
   var ptsCompetence =10;
+  var robot;
+  
+  //variable robot
+  var robotnom;
+  var attack;
+  var health;
+  var defense;
+  var argent;
+
+
 
   void refresh(){
   notifyListeners();
@@ -39,32 +54,138 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
     var testcompetence = appState.ptsCompetence; 
+    TextEditingController nameController = TextEditingController();
+    var nombot = appState.robotnom;
+
+
     return Scaffold(
       body: Column(
         children: [
-          Align(
+          SizedBox(height : 50),
+          Align( //message bienvenue
           alignment: Alignment.center,
           child : Text('Bienvenue sur BattleDroids'),
+
           ),
           SizedBox(height : 20),
-          Align(
+          Align( //message explication
           alignment: Alignment.center,
           child : Text('Créez votre robot, achetez-lui des équipements et que la bataille commence !!!'),
           ),
           SizedBox(height : 20),
+          Align( //nom robot
+          alignment: Alignment.center,
+          child : Text("Votre robot s'apelle : $nombot"),
+          ),
+          SizedBox(height : 20),
+          Align( //entrer nom robot
+            alignment: Alignment.center,
+            child : TextField(
+              controller : nameController,
+            decoration: InputDecoration(
+              labelText: 'Entrez le nom du Robot',
+              border: OutlineInputBorder(),
+            ),
+            ), 
+            ),
+          Align( //envoyer nom robot button
+            alignment: Alignment.centerRight,
+            child: ElevatedButton(
+              onPressed: () {
+                String name = nameController.text;
+                print(name);
+                appState.robot = new Robot(name, 150, 15, 12, 125);
+                appState.robotnom = name;
+                appState.refresh();
+              },
+              child: Text('Envoyer le nom'),
+            ),
+          ),
+          SizedBox(height : 20),  
         ElevatedButton( //ajout d'un button
           onPressed: () {
-            appState.ptsCompetence += 1;
-            print('button fouiller pressed!'); //console button pressed
-            appState.refresh();
+            // appState.ptsCompetence += 1;
+            // print(''); //console button pressed
+            // appState.refresh();
+            Navigator.pushNamed(context, '/shopskill');
           },
-          child: Text('Test'),
+          child: Text('ShopSkill'),
         ),
       ]),
       
     );
   }
 }
+
+
+  class ShopSkillPage extends StatelessWidget {
+    @override
+    Widget build(BuildContext context) {
+      var appState = context.watch<MyAppState>();
+      var testcompetence = appState.ptsCompetence;
+
+      if(appState.robot is Robot){
+        appState.defense = appState.robot.getDefense();
+        appState.attack = appState.robot.getAttack();
+        appState.health = appState.robot.getHealth();
+        appState.argent = appState.robot.getArgent();
+      }
+
+
+      var defense = appState.defense;
+      var attack = appState.attack;
+      var health = appState.health;
+      var argent = appState.argent;
+
+
+      return Scaffold(
+        body: Column(
+          children: [
+            SizedBox(height : 50),
+            Align(
+            alignment: Alignment.center,
+            child : Text('Shop et Skill'),
+            ),
+            Align( //zone text 
+            alignment: Alignment.centerLeft,
+            child : Text('  Argent : $argent€'),
+            child : ElevatedButton( //ajout d'un button
+              onPressed: () {
+              Navigator.pushNamed(context, '/shopskill');
+            },
+            child: Text('+'),
+            ),
+            ),
+            SizedBox(height : 20),
+            Align(
+            alignment: Alignment.center,
+            child : Text('Attack : $attack'),
+            ),
+            SizedBox(height : 20),
+            Align(
+            alignment: Alignment.center,
+            child : Text('Défense : $defense'),
+            ),
+            SizedBox(height : 20),
+            Align(
+            alignment: Alignment.center,
+            child : Text('Health : $health'),
+            ),
+            SizedBox(height : 20),
+          ElevatedButton( //ajout d'un button
+            onPressed: () {
+              // appState.ptsCompetence += 1;
+              // print(''); //console button pressed
+              // appState.refresh();
+              Navigator.pushNamed(context, '/');
+            },
+            child: Text('Retour Accueil'),
+          ),
+        ]),
+        
+      );
+    }
+  }
 
 class Robot {
   String _nom;
