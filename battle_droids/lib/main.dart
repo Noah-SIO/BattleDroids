@@ -41,7 +41,16 @@ class MyAppState extends ChangeNotifier {
   var health;
   var defense;
   var argent;
+  
+  ////pts compétences//////
+  var ptscompetence = 10;
+  var competencebase = 10;
 
+  //var base//
+  var attackB = 15;
+  var defenceB = 12;
+  var healthB = 150;
+  var argentB = 125;
 
 
   void refresh(){
@@ -94,7 +103,7 @@ class MyHomePage extends StatelessWidget {
               onPressed: () {
                 String name = nameController.text;
                 print(name);
-                appState.robot = new Robot(name, 150, 15, 12, 125);
+                appState.robot = new Robot(name, appState.healthB, appState.attackB, appState.defenceB, appState.argentB);
                 appState.robotnom = name;
                 appState.refresh();
               },
@@ -104,15 +113,11 @@ class MyHomePage extends StatelessWidget {
           SizedBox(height : 20),  
         ElevatedButton( //ajout d'un button
           onPressed: () {
-            // appState.ptsCompetence += 1;
-            // print(''); //console button pressed
-            // appState.refresh();
             Navigator.pushNamed(context, '/shopskill');
           },
           child: Text('ShopSkill'),
         ),
       ]),
-      
     );
   }
 }
@@ -149,34 +154,136 @@ class MyHomePage extends StatelessWidget {
             Align( //zone text 
             alignment: Alignment.centerLeft,
             child : Text('  Argent : $argent€'),
-            child : ElevatedButton( //ajout d'un button
-              onPressed: () {
-              Navigator.pushNamed(context, '/shopskill');
-            },
-            child: Text('+'),
-            ),
             ),
             SizedBox(height : 20),
+            
+            /////Attack///////
             Align(
             alignment: Alignment.center,
-            child : Text('Attack : $attack'),
+            child: Container(
+            child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children : [ Text('Attack : $attack'),
+            SizedBox(width : 20),
+            ElevatedButton( //ajout d'un button
+               onPressed: () {
+              if(appState.ptsCompetence > 0){
+               appState.robot.upAttack(1);
+               appState.refresh();
+               appState.ptsCompetence -= 1;
+              }
+             },
+             child: Text('+'),
             ),
+            ElevatedButton( //ajout d'un button
+               onPressed: () {
+                if(appState.ptsCompetence< appState.competencebase){
+               appState.robot.downAttack(1);
+               appState.refresh();
+               appState.ptsCompetence +=1;
+              }
+             },
+             child: Text('-'),
+            ),
+          ]),
+            ),
+            ),
+          ///////////////////////  
+            
+            
             SizedBox(height : 20),
+
+
+
+            /////Defence//////
             Align(
             alignment: Alignment.center,
-            child : Text('Défense : $defense'),
+            child: Container(
+            child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children : [  
+            Text('Défense : $defense'),
+            SizedBox(width : 20),
+            ElevatedButton( //ajout d'un button
+               onPressed: () {
+              if(appState.ptsCompetence > 0){
+               appState.robot.upDefense(1);
+               appState.refresh();
+               appState.ptsCompetence -= 1;
+              }
+             },
+             child: Text('+'),
             ),
+            ElevatedButton( //ajout d'un button
+               onPressed: () {
+                if(appState.ptsCompetence< appState.competencebase){
+               appState.robot.downDefense(1);
+               appState.refresh();
+               appState.ptsCompetence +=1;
+              }
+             },
+             child: Text('-'),
+            ),
+          ]),
+            ),
+            ),
+
+            //////////////////
+
+
+
+
             SizedBox(height : 20),
+
+
+
+            ///////Health/////////
             Align(
             alignment: Alignment.center,
-            child : Text('Health : $health'),
+            child: Container(
+            child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children :[ Text('Health : $health'),
+            SizedBox(width : 20),
+            ElevatedButton( //ajout d'un button
+               onPressed: () {
+              if(appState.ptsCompetence > 0){
+               appState.robot.upHealth(1);
+               appState.refresh();
+               appState.ptsCompetence -= 1;
+              }
+             },
+             child: Text('+'),
             ),
+            ElevatedButton( //ajout d'un button
+               onPressed: () {
+                if(appState.ptsCompetence< appState.competencebase){
+               appState.robot.downHealth(1);
+               appState.refresh();
+               appState.ptsCompetence +=1;
+              }
+             },
+             child: Text('-'),
+            ),
+            ]),
+            ),
+            ),
+            //////////////////////////
+            
+
             SizedBox(height : 20),
-          ElevatedButton( //ajout d'un button
+
+          ElevatedButton( //Button Reset
             onPressed: () {
-              // appState.ptsCompetence += 1;
-              // print(''); //console button pressed
-              // appState.refresh();
+              appState.robot.setAttack(appState.attackB);
+              appState.robot.setDefence(appState.defenceB);
+              appState.robot.setHealth(appState.healthB);
+              appState.refresh();
+            },
+            child: Text('Reset Points'),
+          ),
+          ElevatedButton( //Button Accueil
+            onPressed: () {
               Navigator.pushNamed(context, '/');
             },
             child: Text('Retour Accueil'),
@@ -219,6 +326,18 @@ class Robot {
     this._nom = nom;
   }
 
+  void setHealth(int health) {
+    this._health = health;
+  } 
+
+  void setDefence(int def) {
+    this._defense = def;
+  }
+
+  void setAttack(int attack) {
+    this._attack = attack;
+  } 
+
   void upHealth(int health) {
     this._health += health;
   } 
@@ -227,12 +346,20 @@ class Robot {
     this._health -= health;
   } 
 
-  void setAttack(int attack) {
+  void upAttack(int attack) {
     this._attack += attack;
   } 
 
-  void setDefense(int defense) {
+  void downAttack(int attack) {
+    this._attack -= attack;
+  } 
+
+  void upDefense(int defense) {
     this._defense += defense;
+  } 
+
+  void downDefense(int defense) {
+    this._defense -= defense;
   } 
 
   void upArgent(int argent) {
@@ -338,10 +465,10 @@ class Battle{
       robot.upHealth(pointAction);
       test = test+1;
     }else if(objetUse.getType() == 2){ //defense
-      robot.setDefense(pointAction);
+      robot.upArgent(pointAction);
       test = test+1;
     }else if(objetUse.getType() == 3){ //attack
-      robot.setAttack(pointAction);
+      robot.upAttack(pointAction);
       test = test+1;
     }
 
