@@ -153,7 +153,7 @@ class MyHomePage extends StatelessWidget {
             ),
             Align( //zone text 
             alignment: Alignment.centerLeft,
-            child : Text('  Argent : $argent€'),
+            child : Text('  Argent : $argent€ // point de compétences : $testcompetence'),
             ),
             SizedBox(height : 20),
             
@@ -278,6 +278,7 @@ class MyHomePage extends StatelessWidget {
               appState.robot.setAttack(appState.attackB);
               appState.robot.setDefence(appState.defenceB);
               appState.robot.setHealth(appState.healthB);
+              appState.ptsCompetence = appState.competencebase;
               appState.refresh();
             },
             child: Text('Reset Points'),
