@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
         routes: {
         '/': (context) => MyHomePage(),
         '/shopskill': (context) => ShopSkillPage(),
+        '/assault': (context) => AssaultPage(),
         // '/third': (context) => ThirdPage(),
         },
         initialRoute:'/',
@@ -51,6 +52,11 @@ class MyAppState extends ChangeNotifier {
   var defenceB = 12;
   var healthB = 150;
   var argentB = 125;
+  var annonce="";
+
+  //battle////
+  Battle battle = Battle();
+  var listeShop='pas de robot';
 
 
   void refresh(){
@@ -105,6 +111,8 @@ class MyHomePage extends StatelessWidget {
                 print(name);
                 appState.robot = new Robot(name, appState.healthB, appState.attackB, appState.defenceB, appState.argentB);
                 appState.robotnom = name;
+                appState.listeShop = appState.battle.afficherListeObjet();
+                appState.annonce="";
                 appState.refresh();
               },
               child: Text('Envoyer le nom'),
@@ -113,10 +121,30 @@ class MyHomePage extends StatelessWidget {
           SizedBox(height : 20),  
         ElevatedButton( //ajout d'un button
           onPressed: () {
+            if(appState.robot is Robot){
             Navigator.pushNamed(context, '/shopskill');
+            }else{
+              appState.annonce = 'robot non présent';
+              appState.refresh();
+            }
           },
           child: Text('ShopSkill'),
         ),
+        ElevatedButton( //Button Accueil
+          onPressed: () {
+          if(appState.robot is Robot){
+          Navigator.pushNamed(context, '/assault');
+          }else{
+            appState.annonce = 'robot non présent';
+            appState.refresh();
+            }
+          },
+            child: Text('Combattre'),
+          ),
+          Align(
+            alignment: Alignment.center,
+            child : Text(appState.annonce),
+            ),
       ]),
     );
   }
@@ -128,6 +156,7 @@ class MyHomePage extends StatelessWidget {
     Widget build(BuildContext context) {
       var appState = context.watch<MyAppState>();
       var testcompetence = appState.ptsCompetence;
+      TextEditingController nameController = TextEditingController();
 
       if(appState.robot is Robot){
         appState.defense = appState.robot.getDefense();
@@ -143,17 +172,23 @@ class MyHomePage extends StatelessWidget {
       var argent = appState.argent;
 
 
+      var listeShop = appState.listeShop;
+      
+
       return Scaffold(
-        body: Column(
+        body: Container(
+        child : ListView(children : [
+        Column(
           children: [
             SizedBox(height : 50),
             Align(
             alignment: Alignment.center,
             child : Text('Shop et Skill'),
             ),
+            SizedBox(height : 20),
             Align( //zone text 
             alignment: Alignment.centerLeft,
-            child : Text('  Argent : $argent€ // point de compétences : $testcompetence'),
+            child : Text('  Argent : $argent€ // points de compétences : $testcompetence'),
             ),
             SizedBox(height : 20),
             
@@ -283,15 +318,102 @@ class MyHomePage extends StatelessWidget {
             },
             child: Text('Reset Points'),
           ),
+
+
+
+          //////////Shop////////////////
+          SizedBox(height : 20),
+          Divider(
+          color: Colors.black,
+          thickness: 2,
+          ),
+          Align(
+            alignment: Alignment.center,
+            child : Text('Boutique'),
+          ),
+          SizedBox(height : 20),
+          Align(
+            alignment: Alignment.center,
+            child : Text(listeShop),
+          ),
+          SizedBox(height : 20),
+          Align( //entrer numéro objet
+            alignment: Alignment.center,
+            child : TextField(
+              controller : nameController,
+            decoration: InputDecoration(
+              labelText: 'numéro objet',
+              border: OutlineInputBorder(),
+            ),
+            ), 
+            ),
+
+
+
+            Align( //envoyer numéro objet button
+            alignment: Alignment.centerRight,
+            child: ElevatedButton(
+              onPressed: () {
+                String num = nameController.text;
+                int number = int.parse(num);
+                number = number-1;
+                
+                int res = appState.battle.acheterObjet(number, appState.robot);
+                if(res == 1){
+                  appState.annonce="Pas assez d'argent";
+                }else{
+                  appState.annonce="Objet acheter avec succès";
+                }
+                appState.listeShop = appState.battle.afficherListeObjet();
+                appState.refresh();
+              },
+              child: Text('Acheter'),
+            ),
+          ),
+          Align(
+            alignment: Alignment.center,
+            child : Text(appState.annonce),
+            ),
+
+          SizedBox(height : 20),
+
           ElevatedButton( //Button Accueil
             onPressed: () {
               Navigator.pushNamed(context, '/');
             },
             child: Text('Retour Accueil'),
           ),
+          ElevatedButton( //Button Accueil
+            onPressed: () {
+              Navigator.pushNamed(context, '/assault');
+            },
+            child: Text('Combattre'),
+          ),
         ]),
-        
+        ])
+        )
       );
+    }
+  }
+
+
+
+
+  class AssaultPage extends StatelessWidget {
+    @override
+    Widget build(BuildContext context) {
+      var appState = context.watch<MyAppState>();
+
+      return Scaffold(
+        body: Container(
+        child : Align(
+            alignment: Alignment.center,
+            child : Text('Page 3 coucou'),
+            ),
+        ),
+      );
+
+
     }
   }
 
@@ -396,11 +518,6 @@ class Robot {
 
 
 class Objet{
-  Map<String, Objet> _listeObjet = {
-    "Potion de soin": Objet("Potion de soin", 10, 1, 10),
-    "Armure en Fer": Objet("Armure en Fer", 10, 2, 10),
-    "Parchemin magique": Objet("Parchemin magique", 10, 3, 10), //...
-  };
   int prix;
   String nom;
   int type; //soin,defense,attack 1/2/3
@@ -423,38 +540,38 @@ class Objet{
   int getPoint(){
     return this.point;
   }
-
-  String afficherListeObjet(){
-    String liste = "";
-    for(int i=0; i<_listeObjet.length; i++){ //listeObjet[0]
-      String nomtest = _listeObjet.keys.elementAt(i);
-      int prixtest = _listeObjet.values.elementAt(i).getPrix();
-      liste += "$nomtest : $prixtest\n";
-    }
-    return liste;
-  }
 }
 
 
 class Battle{
 
-  int acheterObjet(Map<String, Objet> listeShop, int obj, Robot robot){ //obj numéro objet
+  Map<String, Objet> _listeObjet = {
+    "Potion de soin": Objet("Potion de soin", 10, 1, 10),
+    "Armure en Fer": Objet("Armure en Fer", 75, 2, 15),
+    "Parchemin magique": Objet("Parchemin magique", 25, 3, 10), //...
+  };
+
+  int acheterObjet(int obj, Robot robot){ //obj numéro objet
     int retour =1; //pas assez d'argent
-      if(listeShop.values.elementAt(obj).getPrix() < robot.getArgent()){
-        robot.inventaire.add(listeShop.values.elementAt(obj));
+      if(this._listeObjet.values.elementAt(obj).getPrix() < robot.getArgent()){
+        robot.inventaire.add(this._listeObjet.values.elementAt(obj));
         retour = 2; //objet acheter
-        String nomObj = listeShop.values.elementAt(obj).getNom();
-        robot.downArgent(listeShop.values.elementAt(obj).getPrix());//retire argent robot
-        listeShop.remove(nomObj);
+        String nomObj = this._listeObjet.values.elementAt(obj).getNom();
+        robot.downArgent(this._listeObjet.values.elementAt(obj).getPrix());//retire argent robot
+        this._listeObjet.remove(nomObj);
       }
     return retour;  
   }
 
 
-  int afficherShop(){
-    Objet test = new Objet("test", 1, 1, 1);
-    test.afficherListeObjet();
-    return 1;
+    String afficherListeObjet(){
+    String liste = "";
+    for(int i=0; i<_listeObjet.length; i++){ //listeObjet[0]
+      String nomtest = _listeObjet.keys.elementAt(i);
+      int prixtest = _listeObjet.values.elementAt(i).getPrix();
+      liste += "${i+1} -> $nomtest : $prixtest€\n";
+    }
+    return liste;
   }
 
 
