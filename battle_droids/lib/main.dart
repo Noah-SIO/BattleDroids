@@ -42,6 +42,7 @@ class MyAppState extends ChangeNotifier {
   var health;
   var defense;
   var argent;
+  var inventaire="";
   
   ////pts compétences//////
   var ptscompetence = 10;
@@ -58,10 +59,23 @@ class MyAppState extends ChangeNotifier {
   Battle battle = Battle();
   var listeShop='pas de robot';
 
+  Map<String, Robot> _listeRobot = {
+    "bot1" : new Robot('R2D2', 100, 10, 5, 0),
+    "bot2" : new Robot('EVA01', 200, 12, 2, 0),
+    "bot3" : new Robot("C3PO", 50, 5, 20, 0),
+  };
+
+  var botAlea;
 
   void refresh(){
   notifyListeners();
   }
+
+  void alea(){
+    int random = Random().nextInt(_listeRobot.length);
+    botAlea = _listeRobot.values.elementAt(random);
+  }
+
 }
 
 class MyHomePage extends StatelessWidget {
@@ -72,6 +86,13 @@ class MyHomePage extends StatelessWidget {
     TextEditingController nameController = TextEditingController();
     var nombot = appState.robotnom;
 
+
+    if(appState.robot is Robot){
+        appState.defense = appState.robot.getDefense();
+        appState.attack = appState.robot.getAttack();
+        appState.health = appState.robot.getHealth();
+        appState.argent = appState.robot.getArgent();
+      }
 
     return Scaffold(
       body: Column(
@@ -113,6 +134,7 @@ class MyHomePage extends StatelessWidget {
                 appState.robotnom = name;
                 appState.listeShop = appState.battle.afficherListeObjet();
                 appState.annonce="";
+                appState.alea();
                 appState.refresh();
               },
               child: Text('Envoyer le nom'),
@@ -363,6 +385,7 @@ class MyHomePage extends StatelessWidget {
                   appState.annonce="Pas assez d'argent";
                 }else{
                   appState.annonce="Objet acheter avec succès";
+                  appState.inventaire = appState.robot.afficherInventaire();
                 }
                 appState.listeShop = appState.battle.afficherListeObjet();
                 appState.refresh();
@@ -404,14 +427,101 @@ class MyHomePage extends StatelessWidget {
     Widget build(BuildContext context) {
       var appState = context.watch<MyAppState>();
 
+      var inventaire = appState.inventaire;
+
+
+      var healthBot = appState.botAlea.getHealth();
+      var attackBot = appState.botAlea.getAttack();
+      var DefenseBot = appState.botAlea.getDefense();
+      var NomBot = appState.botAlea.getNom();
+
+
       return Scaffold(
         body: Container(
-        child : Align(
+        child : ListView(children : [
+        Column(
+          children: [
+            Align(
             alignment: Alignment.center,
-            child : Text('Page 3 coucou'),
+            child : Text('Battle'),
             ),
+          Align(
+          alignment: Alignment.centerLeft,
+          child : Text('Inventaire : \n$inventaire'),
+          ),
+          
+          
+          ////texte robot
+          Align( 
+          alignment: Alignment.centerRight,
+          child: Padding(
+          padding: const EdgeInsets.only(right: 13.0),
+          child : Text('Robot : ' + appState.robotnom, textAlign: TextAlign.left),
+          ),
+          ),
+          Align( 
+          alignment: Alignment.centerRight,
+          child: Padding(
+          padding: const EdgeInsets.only(right: 13.0),
+          child : Text("Point de vie : " + appState.health.toString(), textAlign: TextAlign.left),
+          ),
+          ),
+          Align( 
+          alignment: Alignment.centerRight,
+          child: Padding(
+          padding: const EdgeInsets.only(right: 13.0),
+          child : Text("Point d'attack : " + appState.attack.toString(), textAlign: TextAlign.left),
+          ),
+          ),
+          Align( 
+          alignment: Alignment.centerRight,
+          child: Padding(
+          padding: const EdgeInsets.only(right: 13.0),
+          child : Text("Point de Défence : " + appState.defense.toString(), textAlign: TextAlign.left),
+          ),
+          ),
+          SizedBox(width : 50),
+
+          //text Robot ennemi
+          Align( 
+          alignment: Alignment.centerLeft,
+          child: Padding(
+          padding: const EdgeInsets.only(right: 13.0),
+          child : Text('Robot : ' + NomBot, textAlign: TextAlign.right),
+          ),
+          ),
+          Align( 
+          alignment: Alignment.centerLeft,
+          child: Padding(
+          padding: const EdgeInsets.only(right: 13.0),
+          child : Text("Point de vie : " + healthBot.toString(), textAlign: TextAlign.left),
+          ),
+          ),
+          Align( 
+          alignment: Alignment.centerLeft,
+          child: Padding(
+          padding: const EdgeInsets.only(right: 13.0),
+          child : Text("Point d'attack : " + attackBot.toString(), textAlign: TextAlign.left),
+          ),
+          ),
+          Align( 
+          alignment: Alignment.centerLeft,
+          child: Padding(
+          padding: const EdgeInsets.only(right: 13.0),
+          child : Text("Point de Défence : " + DefenseBot.toString(), textAlign: TextAlign.left),
+          ),
+          ),
+          SizedBox(width : 50),
+
+
+
+
+        ]),
+        ]),
         ),
       );
+
+
 
 
     }
@@ -507,8 +617,8 @@ class Robot {
     String liste = "";
     for(int i=0; i<inventaire.length; i++){ //listeObjet[0]
       String nomtest = inventaire[i].getNom();
-      int prixtest = inventaire[i].getPrix();
-      liste += "$nomtest : $prixtest\n";
+      int pointtest = inventaire[i].getPoint();
+      liste += "${i+1} -> $nomtest : $pointtest Points d'action\n";
     }
     return liste;
   }
