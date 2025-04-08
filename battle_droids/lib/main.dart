@@ -50,19 +50,21 @@ class MyAppState extends ChangeNotifier {
 
   //var base//
   var attackB = 15;
-  var defenceB = 12;
+  var defenceB = 6;
   var healthB = 150;
   var argentB = 125;
   var annonce="";
+  var compte = 1;
+  var closeFight=0;
 
   //battle////
   Battle battle = Battle();
   var listeShop='pas de robot';
 
   Map<String, Robot> _listeRobot = {
-    "bot1" : new Robot('R2D2', 100, 10, 5, 0),
+    "bot1" : new Robot('R2D2', 100, 10, 5, 0), ///vie//attack // defense
     "bot2" : new Robot('EVA01', 200, 12, 2, 0),
-    "bot3" : new Robot("C3PO", 50, 5, 20, 0),
+    "bot3" : new Robot("C3PO", 50, 5, 3, 0),
   };
 
   var botAlea;
@@ -95,7 +97,14 @@ class MyHomePage extends StatelessWidget {
       }
 
     return Scaffold(
-      body: Column(
+      body: Container(
+        // decoration: BoxDecoration(
+        //   image: DecorationImage(
+        //     image: AssetImage('assets/background.jpg'), // Ton image de fond
+        //     fit: BoxFit.cover, // Adapte l'image pour couvrir toute la zone
+        //   ),
+        // ),
+        child : Column(
         children: [
           SizedBox(height : 50),
           Align( //message bienvenue
@@ -135,15 +144,22 @@ class MyHomePage extends StatelessWidget {
                 appState.listeShop = appState.battle.afficherListeObjet();
                 appState.annonce="";
                 appState.alea();
+                appState.closeFight=0;
+                appState.compte=1;
                 appState.refresh();
               },
-              child: Text('Envoyer le nom'),
+              child: Icon(
+                  Icons.send, // Choisissez l'icône souhaitée
+                  size: 24.0, // Taille de l'icône
+                  color: Colors.black, // Couleur de l'icône
+                ),
             ),
           ),
           SizedBox(height : 20),  
         ElevatedButton( //ajout d'un button
           onPressed: () {
             if(appState.robot is Robot){
+              appState.annonce="";
             Navigator.pushNamed(context, '/shopskill');
             }else{
               appState.annonce = 'robot non présent';
@@ -155,6 +171,7 @@ class MyHomePage extends StatelessWidget {
         ElevatedButton( //Button Accueil
           onPressed: () {
           if(appState.robot is Robot){
+          appState.annonce="";
           Navigator.pushNamed(context, '/assault');
           }else{
             appState.annonce = 'robot non présent';
@@ -168,6 +185,7 @@ class MyHomePage extends StatelessWidget {
             child : Text(appState.annonce),
             ),
       ]),
+      ),
     );
   }
 }
@@ -338,7 +356,11 @@ class MyHomePage extends StatelessWidget {
               appState.ptsCompetence = appState.competencebase;
               appState.refresh();
             },
-            child: Text('Reset Points'),
+            child: Icon(
+                  Icons.restore, // Choisissez l'icône souhaitée
+                  size: 24.0, // Taille de l'icône
+                  color: Colors.black, // Couleur de l'icône
+                ),
           ),
 
 
@@ -390,7 +412,11 @@ class MyHomePage extends StatelessWidget {
                 appState.listeShop = appState.battle.afficherListeObjet();
                 appState.refresh();
               },
-              child: Text('Acheter'),
+              child: Icon(
+                  Icons.add_shopping_cart, // Choisissez l'icône souhaitée
+                  size: 24.0, // Taille de l'icône
+                  color: Colors.black, // Couleur de l'icône
+                ),
             ),
           ),
           Align(
@@ -402,12 +428,14 @@ class MyHomePage extends StatelessWidget {
 
           ElevatedButton( //Button Accueil
             onPressed: () {
+              appState.annonce="";
               Navigator.pushNamed(context, '/');
             },
             child: Text('Retour Accueil'),
           ),
           ElevatedButton( //Button Accueil
             onPressed: () {
+              appState.annonce="";
               Navigator.pushNamed(context, '/assault');
             },
             child: Text('Combattre'),
@@ -432,9 +460,10 @@ class MyHomePage extends StatelessWidget {
 
       var healthBot = appState.botAlea.getHealth();
       var attackBot = appState.botAlea.getAttack();
-      var DefenseBot = appState.botAlea.getDefense();
-      var NomBot = appState.botAlea.getNom();
+      var defenseBot = appState.botAlea.getDefense();
+      var nomBot = appState.botAlea.getNom();
 
+      TextEditingController nameController = TextEditingController();
 
       return Scaffold(
         body: Container(
@@ -487,7 +516,7 @@ class MyHomePage extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: Padding(
           padding: const EdgeInsets.only(right: 13.0),
-          child : Text('Robot : ' + NomBot, textAlign: TextAlign.right),
+          child : Text('Robot : ' + nomBot, textAlign: TextAlign.right),
           ),
           ),
           Align( 
@@ -508,12 +537,123 @@ class MyHomePage extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: Padding(
           padding: const EdgeInsets.only(right: 13.0),
-          child : Text("Point de Défence : " + DefenseBot.toString(), textAlign: TextAlign.left),
+          child : Text("Point de Défence : " + defenseBot.toString(), textAlign: TextAlign.left),
           ),
           ),
-          SizedBox(width : 50),
+          SizedBox(height : 20),
+
+          ////////Utiliser Objet // Fight ////////
+          Align( //entrer numéro objet
+            alignment: Alignment.center,
+            child : TextField(
+              controller : nameController,
+            decoration: InputDecoration(
+              labelText: 'numéro objet',
+              border: OutlineInputBorder(),
+            ),
+            ), 
+            ),
+
+            Align( //envoyer numéro objet button
+            alignment: Alignment.centerRight,
+            child : Row( children : [
+            ElevatedButton(
+              onPressed: () {
+                String num = nameController.text;
+                int number = int.parse(num);
+                number = number-1;
+                
+                int res = appState.battle.utiliserObjet(appState.robot, number);
+                if(res == 0){
+                  appState.annonce+="Objet non trouvé\n";
+                }else{
+                  appState.annonce="Objet utilisé\n";
+                  appState.inventaire = appState.robot.afficherInventaire();
+                  appState.defense = appState.robot.getDefense();
+                  appState.attack = appState.robot.getAttack();
+                  appState.health = appState.robot.getHealth();
+                }
+                appState.refresh();
+              },
+              child: Text('Utiliser Objet'),
+            ),
+            ElevatedButton( //button combat
+               onPressed: () {
+                if(appState.closeFight == 0){
+                appState.annonce="";
+                var compte = appState.compte;
+                appState.annonce += "---- Manche $compte -----\n";
+                var vierob1 = appState.robot.getHealth();
+                var vierob2 = appState.botAlea.getHealth();
+                var test = appState.battle.attackRobot(appState.robot, appState.botAlea);
+
+                var calcvie = vierob2 - appState.botAlea.getHealth();
+
+                appState.annonce += "vous avez infligé $calcvie point de dégats au robot adverse\n";
+
+                test = appState.battle.attackRobot(appState.botAlea, appState.robot);
+
+                calcvie = vierob1 - appState.robot.getHealth(); 
+                appState.compte +=1;
+                appState.annonce += "l'adversaire vous a infligé $calcvie point de dégats\n";
+                if(appState.robot.getHealth() <= 0){
+                  appState.annonce = "Vous avez perdu !!!";
+                  appState.closeFight = 1;
+                  appState.robot.setHealth(0);
+                }if(appState.botAlea.getHealth() <= 0){
+                  appState.annonce = "Vous avez gagné !!!";
+                  appState.botAlea.setHealth(0);
+                  appState.closeFight = 1;
+                }
+                }else if(appState.closeFight==1){
+                  appState.annonce= "combat terminé veuillez recréé un robot";
+                }
+                appState.refresh();
+             },
+             child: Icon(
+                  Icons.sports_mma, // Choisissez l'icône souhaitée
+                  size: 24.0, // Taille de l'icône
+                  color: Colors.black, // Couleur de l'icône
+                ),
+            ),
 
 
+
+            ElevatedButton( //Button Accueil
+            onPressed: () {
+              if(appState.closeFight == 1){
+              appState.annonce="";
+              appState.robot = null;
+              appState.robotnom = null;
+              Navigator.pushNamed(context, '/');
+              }else if(appState.closeFight == 0){
+                appState.annonce += "Vous n'avez pas terminé le combat\n";
+              }
+              appState.refresh();
+            },
+            child: Text('Retour Accueil'),
+          ),
+
+
+
+          ]),
+          ),
+           Align(
+            alignment: Alignment.center,
+            child : Text(appState.annonce),
+            ),
+
+
+         
+          /////////////////////////////////
+          
+
+
+
+
+
+
+          /////////////////////////
 
 
         ]),
@@ -657,7 +797,7 @@ class Battle{
 
   Map<String, Objet> _listeObjet = {
     "Potion de soin": Objet("Potion de soin", 10, 1, 10),
-    "Armure en Fer": Objet("Armure en Fer", 75, 2, 15),
+    "Armure en Fer": Objet("Armure en Fer", 75, 2, 3),
     "Parchemin magique": Objet("Parchemin magique", 25, 3, 10), //...
   };
 
@@ -687,30 +827,35 @@ class Battle{
 
   int utiliserObjet(Robot robot, int obj){//obj numéro objet
     int test=0;
+    if(obj < robot.inventaire.length){
     Objet objetUse = robot.inventaire[obj];
     int pointAction = objetUse.getPoint();
     if(objetUse.getType() == 1){ //soin
       robot.upHealth(pointAction);
       test = test+1;
     }else if(objetUse.getType() == 2){ //defense
-      robot.upArgent(pointAction);
+      robot.upDefense(pointAction);
       test = test+1;
     }else if(objetUse.getType() == 3){ //attack
       robot.upAttack(pointAction);
       test = test+1;
     }
-
+    
     if(test == 1){ //supprime l'objet une fois utiliser
       robot.deleteObjFromInventaire(obj);
     }
     return test; //objet supprimer/utiliser avec succès
+    }else{
+      return test;
+    }
   }
 
   int attackRobot(Robot robot1, Robot robot2){ //robot 1 attack le 2
     int ptsAttack = robot1.getAttack(); //attack robot
     int ptsHealth = robot2.getHealth(); //pts vie robot2
+
     int calc = ptsAttack - robot2.getDefense(); //calcul attack moins défense robot2
-    robot2.downHealth(calc); //attack le robot2
+    robot2.downHealth(calc.abs()); //attack le robot2
     return 1; //robot attacker avec succès
   }
 
