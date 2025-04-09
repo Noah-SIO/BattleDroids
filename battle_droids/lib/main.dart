@@ -98,40 +98,74 @@ class MyHomePage extends StatelessWidget {
 
     return Scaffold(
       body: Container(
-        // decoration: BoxDecoration(
-        //   image: DecorationImage(
-        //     image: AssetImage('assets/background.jpg'), // Ton image de fond
-        //     fit: BoxFit.cover, // Adapte l'image pour couvrir toute la zone
-        //   ),
-        // ),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/background.jpg'), // Ton image de fond
+            fit: BoxFit.cover, // Adapte l'image pour couvrir toute la zone
+          ),
+        ),
         child : Column(
         children: [
           SizedBox(height : 50),
           Align( //message bienvenue
           alignment: Alignment.center,
-          child : Text('Bienvenue sur BattleDroids'),
-
+          child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: Colors.black, // Fond blanc
+          ),
+          child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child : Text('Bienvenue sur BattleDroids',style: TextStyle(color: Color(0xFF89CC04),fontSize: 20.0,fontWeight: FontWeight.bold,),),
+          ),
+          ),
           ),
           SizedBox(height : 20),
           Align( //message explication
           alignment: Alignment.center,
-          child : Text('Créez votre robot, achetez-lui des équipements et que la bataille commence !!!'),
+          child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: Colors.black, // Fond blanc
+          ),
+          child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child : Text('Créez votre robot, achetez-lui des équipements et que la bataille commence !!!',style: TextStyle(color: Color(0xFF89CC04),fontSize: 16.0,fontWeight: FontWeight.bold,),),
+          ),
+          ),
           ),
           SizedBox(height : 20),
           Align( //nom robot
           alignment: Alignment.center,
-          child : Text("Votre robot s'apelle : $nombot"),
+          child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: Colors.black, // Fond blanc
+          ),
+          child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child : Text("Votre robot s'apelle : $nombot",style: TextStyle(color: Color(0xFF89CC04),fontSize: 16.0,fontWeight: FontWeight.bold,),),
+          ),
+          ),
           ),
           SizedBox(height : 20),
           Align( //entrer nom robot
             alignment: Alignment.center,
             child : TextField(
-              controller : nameController,
+            controller: nameController,
             decoration: InputDecoration(
               labelText: 'Entrez le nom du Robot',
+              labelStyle: TextStyle(
+              color: Color(0xFF89CC04), // Couleur du texte du label
+              fontSize: 18.0, // Taille du texte du label (facultatif)
+              fontWeight: FontWeight.bold, // Gras pour le texte du label (facultatif)
+              ),
               border: OutlineInputBorder(),
+              filled: true, // Active le remplissage
+              fillColor: Colors.black, // Définit le fond blanc
             ),
-            ), 
+            style: TextStyle(
+            color: Color(0xFF89CC04), // Définit la couleur du texte
+            fontSize: 16.0, // Optionnel : ajuste la taille du texte
+            ),
+          ),
             ),
           Align( //envoyer nom robot button
             alignment: Alignment.centerRight,
@@ -148,6 +182,10 @@ class MyHomePage extends StatelessWidget {
                 appState.compte=1;
                 appState.refresh();
               },
+              style: ElevatedButton.styleFrom(
+              backgroundColor: Color(0xFF89CC04), // Couleur de fond du bouton
+              foregroundColor: Colors.black, // Couleur du texte
+              ),
               child: Icon(
                   Icons.send, // Choisissez l'icône souhaitée
                   size: 24.0, // Taille de l'icône
@@ -166,7 +204,11 @@ class MyHomePage extends StatelessWidget {
               appState.refresh();
             }
           },
-          child: Text('ShopSkill'),
+          style: ElevatedButton.styleFrom(
+          backgroundColor: Color(0xFF89CC04), // Couleur de fond du bouton
+          foregroundColor: Colors.black, // Couleur du texte
+          ),
+          child: Text('ShopSkill',style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.bold,),),
         ),
         ElevatedButton( //Button Accueil
           onPressed: () {
@@ -178,11 +220,20 @@ class MyHomePage extends StatelessWidget {
             appState.refresh();
             }
           },
-            child: Text('Combattre'),
+            style: ElevatedButton.styleFrom(
+            backgroundColor: Color(0xFF89CC04), // Couleur de fond du bouton
+            foregroundColor: Colors.black, // Couleur du texte
+            ),
+            child: Text('Combattre',style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.bold,),),
           ),
           Align(
             alignment: Alignment.center,
-            child : Text(appState.annonce),
+            child: DecoratedBox(
+            decoration: BoxDecoration(
+            color: Colors.black, // Fond blanc
+            ),
+            child : Text(appState.annonce,style: TextStyle(color: Color(0xFF89CC04),fontSize: 16.0,fontWeight: FontWeight.bold,),),
+            ),
             ),
       ]),
       ),
@@ -217,18 +268,40 @@ class MyHomePage extends StatelessWidget {
 
       return Scaffold(
         body: Container(
+          decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/background.jpg'), // Ton image de fond
+            fit: BoxFit.cover, // Adapte l'image pour couvrir toute la zone
+          ),
+        ),
         child : ListView(children : [
         Column(
           children: [
             SizedBox(height : 50),
             Align(
             alignment: Alignment.center,
-            child : Text('Shop et Skill'),
+            child: DecoratedBox(
+            decoration: BoxDecoration(
+            color: Colors.black, // Fond blanc
+            ),
+            child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child : Text('Shop et Skill',style: TextStyle(color: Color(0xFF89CC04),fontSize: 20.0,fontWeight: FontWeight.bold,),),
+            ),
+            ),
             ),
             SizedBox(height : 20),
             Align( //zone text 
             alignment: Alignment.centerLeft,
-            child : Text('  Argent : $argent€ // points de compétences : $testcompetence'),
+            child: DecoratedBox(
+            decoration: BoxDecoration(
+            color: Colors.black, // Fond blanc
+            ),
+            child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child : Text('  Argent : $argent€ // points de compétences : $testcompetence',style: TextStyle(color: Color(0xFF89CC04),fontSize: 16.0,fontWeight: FontWeight.bold,),),
+            ),
+            ),
             ),
             SizedBox(height : 20),
             
@@ -238,7 +311,7 @@ class MyHomePage extends StatelessWidget {
             child: Container(
             child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children : [ Text('Attack : $attack'),
+            children : [ Text('Attack : $attack',style: TextStyle(color: Color(0xFF89CC04),fontSize: 16.0,fontWeight: FontWeight.bold,),),
             SizedBox(width : 20),
             ElevatedButton( //ajout d'un button
                onPressed: () {
@@ -277,7 +350,7 @@ class MyHomePage extends StatelessWidget {
             child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children : [  
-            Text('Défense : $defense'),
+            Text('Défense : $defense',style: TextStyle(color: Color(0xFF89CC04),fontSize: 16.0,fontWeight: FontWeight.bold,),),
             SizedBox(width : 20),
             ElevatedButton( //ajout d'un button
                onPressed: () {
@@ -318,7 +391,7 @@ class MyHomePage extends StatelessWidget {
             child: Container(
             child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children :[ Text('Health : $health'),
+            children :[ Text('Health : $health',style: TextStyle(color: Color(0xFF89CC04),fontSize: 16.0,fontWeight: FontWeight.bold,),),
             SizedBox(width : 20),
             ElevatedButton( //ajout d'un button
                onPressed: () {
@@ -373,12 +446,12 @@ class MyHomePage extends StatelessWidget {
           ),
           Align(
             alignment: Alignment.center,
-            child : Text('Boutique'),
+            child : Text('Boutique',style: TextStyle(color: Color(0xFF89CC04),fontSize: 20.0,fontWeight: FontWeight.bold,),),
           ),
           SizedBox(height : 20),
           Align(
             alignment: Alignment.center,
-            child : Text(listeShop),
+            child : Text(listeShop,style: TextStyle(color: Color(0xFF89CC04),fontSize: 16.0,fontWeight: FontWeight.bold,),),
           ),
           SizedBox(height : 20),
           Align( //entrer numéro objet
@@ -421,7 +494,7 @@ class MyHomePage extends StatelessWidget {
           ),
           Align(
             alignment: Alignment.center,
-            child : Text(appState.annonce),
+            child : Text(appState.annonce,style: TextStyle(color: Color(0xFF89CC04),fontSize: 16.0,fontWeight: FontWeight.bold,),),
             ),
 
           SizedBox(height : 20),
