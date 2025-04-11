@@ -37,7 +37,7 @@ class MyAppState extends ChangeNotifier {
   var robot;
   
   //variable robot
-  var robotnom;
+  var robotnom = "non assigné";
   var attack;
   var health;
   var defense;
@@ -67,7 +67,16 @@ class MyAppState extends ChangeNotifier {
     "bot3" : new Robot("C3PO", 50, 5, 3, 0),
   };
 
+
+
+  //////variable ennemi////////
   var botAlea;
+  var botHealth; 
+  var botDefense;
+  var botAttack;
+
+
+
 
   void refresh(){
   notifyListeners();
@@ -76,6 +85,9 @@ class MyAppState extends ChangeNotifier {
   void alea(){
     int random = Random().nextInt(_listeRobot.length);
     botAlea = _listeRobot.values.elementAt(random);
+    botHealth = botAlea.getHealth();
+    botDefense = botAlea.getDefense();
+    botAttack = botAlea.getAttack();
   }
 
 }
@@ -877,7 +889,11 @@ class MyHomePage extends StatelessWidget {
               if(appState.closeFight == 1){
               appState.annonce="";
               appState.robot = null;
-              appState.robotnom = null;
+              appState.robotnom = "non assigné";
+              appState.botAlea.setHealth(appState.botHealth);
+              appState.botAlea.setDefence(appState.botDefense);
+              appState.botAlea.setAttack(appState.botAttack);
+
               Navigator.pushNamed(context, '/');
               }else if(appState.closeFight == 0){
                 appState.annonce += "Vous n'avez pas terminé le combat\n";
