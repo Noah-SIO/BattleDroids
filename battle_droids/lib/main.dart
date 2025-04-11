@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
         initialRoute:'/',
         theme: ThemeData(
           useMaterial3: true,
+          //fontFamily: 'CustomFont',
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
         ),
       ),

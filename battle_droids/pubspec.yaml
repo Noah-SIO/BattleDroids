@@ -23,5 +23,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: CustomFont
+      fonts:
+        - asset: assets/Bad Signal.otf
   assets:
     - assets/background.jpg
