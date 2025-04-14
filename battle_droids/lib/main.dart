@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         initialRoute:'/',
         theme: ThemeData(
           useMaterial3: true,
-          //fontFamily: 'CustomFont',
+          fontFamily: 'CustomFont',
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
         ),
       ),
@@ -38,14 +38,14 @@ class MyAppState extends ChangeNotifier {
   var robot;
   
   //variable robot
-  var robotnom = "non assigné";
+  var robotnom = "non assigne";
   var attack;
   var health;
   var defense;
   var argent;
   var inventaire="";
   
-  ////pts compétences//////
+  ////pts competences//////
   var ptscompetence = 10;
   var competencebase = 10;
 
@@ -141,7 +141,7 @@ class MyHomePage extends StatelessWidget {
           ),
           child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child : Text('Créez votre robot, achetez-lui des équipements et que la bataille commence !!!',style: TextStyle(color: Color(0xFF89CC04),fontSize: 16.0,fontWeight: FontWeight.bold,),),
+          child : Text('Creez votre robot, achetez-lui des equipements et que la bataille commence !!!',style: TextStyle(color: Color(0xFF89CC04),fontSize: 16.0,fontWeight: FontWeight.bold,),),
           ),
           ),
           ),
@@ -172,10 +172,10 @@ class MyHomePage extends StatelessWidget {
               ),
               border: OutlineInputBorder(),
               filled: true, // Active le remplissage
-              fillColor: Colors.black, // Définit le fond blanc
+              fillColor: Colors.black, // Definit le fond blanc
             ),
             style: TextStyle(
-            color: Color(0xFF89CC04), // Définit la couleur du texte
+            color: Color(0xFF89CC04), // Definit la couleur du texte
             fontSize: 16.0, // Optionnel : ajuste la taille du texte
             ),
           ),
@@ -200,7 +200,7 @@ class MyHomePage extends StatelessWidget {
               foregroundColor: Colors.black, // Couleur du texte
               ),
               child: Icon(
-                  Icons.send, // Choisissez l'icône souhaitée
+                  Icons.send, // Choisissez l'icône souhaitee
                   size: 24.0, // Taille de l'icône
                   color: Colors.black, // Couleur de l'icône
                 ),
@@ -213,7 +213,7 @@ class MyHomePage extends StatelessWidget {
               appState.annonce="";
             Navigator.pushNamed(context, '/shopskill');
             }else{
-              appState.annonce = 'robot non présent';
+              appState.annonce = 'robot non present';
               appState.refresh();
             }
           },
@@ -229,7 +229,7 @@ class MyHomePage extends StatelessWidget {
           appState.annonce="";
           Navigator.pushNamed(context, '/assault');
           }else{
-            appState.annonce = 'robot non présent';
+            appState.annonce = 'robot non present';
             appState.refresh();
             }
           },
@@ -312,7 +312,7 @@ class MyHomePage extends StatelessWidget {
             ),
             child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child : Text('  Argent : $argent€ // points de compétences : $testcompetence',style: TextStyle(color: Color(0xFF89CC04),fontSize: 16.0,fontWeight: FontWeight.bold,),),
+            child : Text('  Argent : $argent€ // points de competences : $testcompetence',style: TextStyle(color: Color(0xFF89CC04),fontSize: 16.0,fontWeight: FontWeight.bold,),),
             ),
             ),
             ),
@@ -386,7 +386,7 @@ class MyHomePage extends StatelessWidget {
             ),
             child: Padding(
             padding: const EdgeInsets.all(8.0),   
-            child : Text('Défense : $defense',style: TextStyle(color: Color(0xFF89CC04),fontSize: 16.0,fontWeight: FontWeight.bold,),),
+            child : Text('Defense : $defense',style: TextStyle(color: Color(0xFF89CC04),fontSize: 16.0,fontWeight: FontWeight.bold,),),
             ),
             ),
             SizedBox(width : 20),
@@ -497,7 +497,7 @@ class MyHomePage extends StatelessWidget {
             foregroundColor: Colors.black, // Couleur du texte
             ),
             child: Icon(
-                  Icons.restore, // Choisissez l'icône souhaitée
+                  Icons.restore, // Choisissez l'icône souhaitee
                   size: 24.0, // Taille de l'icône
                   color: Colors.black, // Couleur de l'icône
                 ),
@@ -537,12 +537,12 @@ class MyHomePage extends StatelessWidget {
             ),
           ),
           SizedBox(height : 20),
-          Align( //entrer numéro objet
+          Align( //entrer numero objet
             alignment: Alignment.center,
             child : TextField(
               controller : nameController,
             decoration: InputDecoration(
-              labelText: 'Entrez numéro objet',
+              labelText: 'Entrez numero objet',
               labelStyle: TextStyle(
               color: Color(0xFF89CC04), // Couleur du texte du label
               fontSize: 18.0, // Taille du texte du label (facultatif)
@@ -550,10 +550,10 @@ class MyHomePage extends StatelessWidget {
               ),
               border: OutlineInputBorder(),
               filled: true, // Active le remplissage
-              fillColor: Colors.black, // Définit le fond blanc
+              fillColor: Colors.black, // Definit le fond blanc
             ),
             style: TextStyle(
-            color: Color(0xFF89CC04), // Définit la couleur du texte
+            color: Color(0xFF89CC04), // Definit la couleur du texte
             fontSize: 16.0, // Optionnel : ajuste la taille du texte
             ),
             ), 
@@ -561,7 +561,7 @@ class MyHomePage extends StatelessWidget {
 
 
 
-            Align( //envoyer numéro objet button
+            Align( //envoyer numero objet button
             alignment: Alignment.centerRight,
             child: ElevatedButton(
               onPressed: () {
@@ -573,7 +573,7 @@ class MyHomePage extends StatelessWidget {
                 if(res == 1){
                   appState.annonce="Pas assez d'argent";
                 }else{
-                  appState.annonce="Objet acheter avec succès";
+                  appState.annonce="Objet acheter avec succes";
                   appState.inventaire = appState.robot.afficherInventaire();
                 }
                 appState.listeShop = appState.battle.afficherListeObjet();
@@ -584,7 +584,7 @@ class MyHomePage extends StatelessWidget {
             foregroundColor: Colors.black, // Couleur du texte
             ),
               child: Icon(
-                  Icons.add_shopping_cart, // Choisissez l'icône souhaitée
+                  Icons.add_shopping_cart, // Choisissez l'icône souhaitee
                   size: 24.0, // Taille de l'icône
                   color: Colors.black, // Couleur de l'icône
                 ),
@@ -732,7 +732,7 @@ class MyHomePage extends StatelessWidget {
             ),
           child: Padding(
           padding: const EdgeInsets.only(right: 13.0),
-          child : Text("Point de Défence : " + appState.defense.toString(), textAlign: TextAlign.left,style: TextStyle(color: Color(0xFF89CC04),fontSize: 16.0,fontWeight: FontWeight.bold,),),
+          child : Text("Point de Defence : " + appState.defense.toString(), textAlign: TextAlign.left,style: TextStyle(color: Color(0xFF89CC04),fontSize: 16.0,fontWeight: FontWeight.bold,),),
           ),
           ),
           ),
@@ -783,19 +783,19 @@ class MyHomePage extends StatelessWidget {
             ),
           child: Padding(
           padding: const EdgeInsets.only(right: 13.0),
-          child : Text("Point de Défence : " + defenseBot.toString(), textAlign: TextAlign.left,style: TextStyle(color: Color(0xFF89CC04),fontSize: 16.0,fontWeight: FontWeight.bold,),),
+          child : Text("Point de Defence : " + defenseBot.toString(), textAlign: TextAlign.left,style: TextStyle(color: Color(0xFF89CC04),fontSize: 16.0,fontWeight: FontWeight.bold,),),
           ),
           ),
           ),
           SizedBox(height : 20),
 
           ////////Utiliser Objet // Fight ////////
-          Align( //entrer numéro objet
+          Align( //entrer numero objet
             alignment: Alignment.center,
             child : TextField(
               controller : nameController,
               decoration: InputDecoration(
-              labelText: 'Entrez numéro objet',
+              labelText: 'Entrez numero objet',
               labelStyle: TextStyle(
               color: Color(0xFF89CC04), // Couleur du texte du label
               fontSize: 18.0, // Taille du texte du label (facultatif)
@@ -803,16 +803,16 @@ class MyHomePage extends StatelessWidget {
               ),
               border: OutlineInputBorder(),
               filled: true, // Active le remplissage
-              fillColor: Colors.black, // Définit le fond blanc
+              fillColor: Colors.black, // Definit le fond blanc
             ),
             style: TextStyle(
-            color: Color(0xFF89CC04), // Définit la couleur du texte
+            color: Color(0xFF89CC04), // Definit la couleur du texte
             fontSize: 16.0, // Optionnel : ajuste la taille du texte
             ),
             ), 
             ),
 
-            Align( //envoyer numéro objet button
+            Align( //envoyer numero objet button
             alignment: Alignment.centerRight,
             child : Row( children : [
             ElevatedButton(
@@ -823,9 +823,9 @@ class MyHomePage extends StatelessWidget {
                 
                 int res = appState.battle.utiliserObjet(appState.robot, number);
                 if(res == 0){
-                  appState.annonce+="Objet non trouvé\n";
+                  appState.annonce+="Objet non trouve\n";
                 }else{
-                  appState.annonce="Objet utilisé\n";
+                  appState.annonce="Objet utilise\n";
                   appState.inventaire = appState.robot.afficherInventaire();
                   appState.defense = appState.robot.getDefense();
                   appState.attack = appState.robot.getAttack();
@@ -851,24 +851,24 @@ class MyHomePage extends StatelessWidget {
 
                 var calcvie = vierob2 - appState.botAlea.getHealth();
 
-                appState.annonce += "vous avez infligé $calcvie point de dégats au robot adverse\n";
+                appState.annonce += "vous avez inflige $calcvie point de degats au robot adverse\n";
 
                 test = appState.battle.attackRobot(appState.botAlea, appState.robot);
 
                 calcvie = vierob1 - appState.robot.getHealth(); 
                 appState.compte +=1;
-                appState.annonce += "l'adversaire vous a infligé $calcvie point de dégats\n";
+                appState.annonce += "l'adversaire vous a inflige $calcvie point de degats\n";
                 if(appState.robot.getHealth() <= 0){
                   appState.annonce = "Vous avez perdu !!!";
                   appState.closeFight = 1;
                   appState.robot.setHealth(0);
                 }if(appState.botAlea.getHealth() <= 0){
-                  appState.annonce = "Vous avez gagné !!!";
+                  appState.annonce = "Vous avez gagne !!!";
                   appState.botAlea.setHealth(0);
                   appState.closeFight = 1;
                 }
                 }else if(appState.closeFight==1){
-                  appState.annonce= "combat terminé veuillez recréé un robot";
+                  appState.annonce= "combat termine veuillez recree un robot";
                 }
                 appState.refresh();
              },
@@ -877,7 +877,7 @@ class MyHomePage extends StatelessWidget {
             foregroundColor: Colors.black, // Couleur du texte
             ),
              child: Icon(
-                  Icons.sports_mma, // Choisissez l'icône souhaitée
+                  Icons.sports_mma, // Choisissez l'icône souhaitee
                   size: 24.0, // Taille de l'icône
                   color: Colors.black, // Couleur de l'icône
                 ),
@@ -890,14 +890,14 @@ class MyHomePage extends StatelessWidget {
               if(appState.closeFight == 1){
               appState.annonce="";
               appState.robot = null;
-              appState.robotnom = "non assigné";
+              appState.robotnom = "non assigne";
               appState.botAlea.setHealth(appState.botHealth);
               appState.botAlea.setDefence(appState.botDefense);
               appState.botAlea.setAttack(appState.botAttack);
 
               Navigator.pushNamed(context, '/');
               }else if(appState.closeFight == 0){
-                appState.annonce += "Vous n'avez pas terminé le combat\n";
+                appState.annonce += "Vous n'avez pas termine le combat\n";
               }
               appState.refresh();
             },
@@ -1076,18 +1076,23 @@ class Battle{
 
   Map<String, Objet> _listeObjet = {
     "Potion de soin": Objet("Potion de soin", 10, 1, 10),
-    "Armure en Fer": Objet("Armure en Fer", 75, 2, 3),
-    "Parchemin magique": Objet("Parchemin magique", 25, 3, 10), //...
+    "Armure en Fer": Objet("Armure en Fer", 75, 2, 5),
+    "Parchemin magique": Objet("Parchemin magique", 25, 3, 10), //prix, type, pts action
+    "AK47": Objet("AK47", 100, 3, 20),
+    "Kebab": Objet("Kebab", 12, 1, 5),
+    "Batte de baseball": Objet("batte de baseball", 30, 3, 12),
+    "Gilet pare-balles": Objet("Gilet pare-balles", 36, 2, 3),
   };
 
-  int acheterObjet(int obj, Robot robot){ //obj numéro objet
+  int acheterObjet(int obj, Robot robot){ //obj numero objet
     int retour =1; //pas assez d'argent
-      if(this._listeObjet.values.elementAt(obj).getPrix() < robot.getArgent()){
+      if(this._listeObjet.values.elementAt(obj).getPrix() <= robot.getArgent()){
         robot.inventaire.add(this._listeObjet.values.elementAt(obj));
         retour = 2; //objet acheter
+        var keys = _listeObjet.keys.toList();
         String nomObj = this._listeObjet.values.elementAt(obj).getNom();
         robot.downArgent(this._listeObjet.values.elementAt(obj).getPrix());//retire argent robot
-        this._listeObjet.remove(nomObj);
+        this._listeObjet.remove(keys[obj]);
       }
     return retour;  
   }
@@ -1098,13 +1103,14 @@ class Battle{
     for(int i=0; i<_listeObjet.length; i++){ //listeObjet[0]
       String nomtest = _listeObjet.keys.elementAt(i);
       int prixtest = _listeObjet.values.elementAt(i).getPrix();
-      liste += "${i+1} -> $nomtest : $prixtest€\n";
+      int pointtest = _listeObjet.values.elementAt(i).getPoint();
+      liste += "${i+1} -> $nomtest : $prixtest€ // Points : $pointtest\n";
     }
     return liste;
   }
 
 
-  int utiliserObjet(Robot robot, int obj){//obj numéro objet
+  int utiliserObjet(Robot robot, int obj){//obj numero objet
     int test=0;
     if(obj < robot.inventaire.length){
     Objet objetUse = robot.inventaire[obj];
@@ -1123,7 +1129,7 @@ class Battle{
     if(test == 1){ //supprime l'objet une fois utiliser
       robot.deleteObjFromInventaire(obj);
     }
-    return test; //objet supprimer/utiliser avec succès
+    return test; //objet supprimer/utiliser avec succes
     }else{
       return test;
     }
@@ -1133,9 +1139,9 @@ class Battle{
     int ptsAttack = robot1.getAttack(); //attack robot
     int ptsHealth = robot2.getHealth(); //pts vie robot2
 
-    int calc = ptsAttack - robot2.getDefense(); //calcul attack moins défense robot2
+    int calc = ptsAttack - robot2.getDefense(); //calcul attack moins defense robot2
     robot2.downHealth(calc.abs()); //attack le robot2
-    return 1; //robot attacker avec succès
+    return 1; //robot attacker avec succes
   }
 
 

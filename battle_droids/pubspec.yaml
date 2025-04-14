@@ -26,6 +26,6 @@ flutter:
   fonts:
     - family: CustomFont
       fonts:
-        - asset: assets/Bad Signal.otf
+        - asset: assets/Hacked.ttf
   assets:
     - assets/background.jpg
