@@ -894,6 +894,7 @@ class MyHomePage extends StatelessWidget {
               appState.botAlea.setHealth(appState.botHealth);
               appState.botAlea.setDefence(appState.botDefense);
               appState.botAlea.setAttack(appState.botAttack);
+              appState.battle.resetMap();
 
               Navigator.pushNamed(context, '/');
               }else if(appState.closeFight == 0){
@@ -1074,7 +1075,17 @@ class Objet{
 
 class Battle{
 
-  Map<String, Objet> _listeObjet = {
+  Map<String, Objet> _listeObjet = { ///liste objet achat
+    "Potion de soin": Objet("Potion de soin", 10, 1, 10),
+    "Armure en Fer": Objet("Armure en Fer", 75, 2, 5),
+    "Parchemin magique": Objet("Parchemin magique", 25, 3, 10), //prix, type, pts action
+    "AK47": Objet("AK47", 100, 3, 20),
+    "Kebab": Objet("Kebab", 12, 1, 5),
+    "Batte de baseball": Objet("batte de baseball", 30, 3, 12),
+    "Gilet pare-balles": Objet("Gilet pare-balles", 36, 2, 3),
+  };
+
+  Map<String, Objet> _listeObjet2 = { //liste de base reset
     "Potion de soin": Objet("Potion de soin", 10, 1, 10),
     "Armure en Fer": Objet("Armure en Fer", 75, 2, 5),
     "Parchemin magique": Objet("Parchemin magique", 25, 3, 10), //prix, type, pts action
@@ -1144,6 +1155,8 @@ class Battle{
     return 1; //robot attacker avec succes
   }
 
-
+  void resetMap(){
+    _listeObjet = _listeObjet2;
+  }
 
 }
