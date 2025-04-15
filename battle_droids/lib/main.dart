@@ -52,7 +52,7 @@ class MyAppState extends ChangeNotifier {
   //var base//
   var attackB = 15;
   var defenceB = 6;
-  var healthB = 150;
+  var healthB = 100;
   var argentB = 125;
   var annonce="";
   var compte = 1;
@@ -64,8 +64,8 @@ class MyAppState extends ChangeNotifier {
 
   Map<String, Robot> _listeRobot = {
     "bot1" : new Robot('R2D2', 100, 10, 5, 0), ///vie//attack // defense
-    "bot2" : new Robot('EVA01', 200, 12, 2, 0),
-    "bot3" : new Robot("C3PO", 50, 5, 3, 0),
+    "bot2" : new Robot('EVA01', 200, 13, 4, 0),
+    "bot3" : new Robot("C3PO", 50, 8, 3, 0),
   };
 
 
@@ -338,9 +338,11 @@ class MyHomePage extends StatelessWidget {
             ElevatedButton( //ajout d'un button
                onPressed: () {
               if(appState.ptsCompetence > 0){
+                if(attack <= appState.attackB-1+appState.competencebase){
                appState.robot.upAttack(1);
                appState.refresh();
                appState.ptsCompetence -= 1;
+              }
               }
              },
              style: ElevatedButton.styleFrom(
@@ -352,9 +354,11 @@ class MyHomePage extends StatelessWidget {
             ElevatedButton( //ajout d'un button
                onPressed: () {
                 if(appState.ptsCompetence< appState.competencebase){
+                  if(attack > 0){
                appState.robot.downAttack(1);
                appState.refresh();
                appState.ptsCompetence +=1;
+                  }
               }
              },
              style: ElevatedButton.styleFrom(
@@ -393,9 +397,11 @@ class MyHomePage extends StatelessWidget {
             ElevatedButton( //ajout d'un button
                onPressed: () {
               if(appState.ptsCompetence > 0){
+                if(defense <= appState.defenceB-1+appState.competencebase){
                appState.robot.upDefense(1);
                appState.refresh();
                appState.ptsCompetence -= 1;
+              }
               }
              },
              style: ElevatedButton.styleFrom(
@@ -407,9 +413,11 @@ class MyHomePage extends StatelessWidget {
             ElevatedButton( //ajout d'un button
                onPressed: () {
                 if(appState.ptsCompetence< appState.competencebase){
+                  if(defense > 0){
                appState.robot.downDefense(1);
                appState.refresh();
                appState.ptsCompetence +=1;
+                  }
               }
              },
              style: ElevatedButton.styleFrom(
@@ -451,9 +459,11 @@ class MyHomePage extends StatelessWidget {
             ElevatedButton( //ajout d'un button
                onPressed: () {
               if(appState.ptsCompetence > 0){
+                if(health <= appState.healthB-1+appState.competencebase){
                appState.robot.upHealth(1);
                appState.refresh();
                appState.ptsCompetence -= 1;
+                }
               }
              },
              style: ElevatedButton.styleFrom(
@@ -465,10 +475,12 @@ class MyHomePage extends StatelessWidget {
             ElevatedButton( //ajout d'un button
                onPressed: () {
                 if(appState.ptsCompetence< appState.competencebase){
+               if(health > 0){
                appState.robot.downHealth(1);
                appState.refresh();
                appState.ptsCompetence +=1;
               }
+                }
              },
              style: ElevatedButton.styleFrom(
             backgroundColor: Color(0xFF89CC04), // Couleur de fond du bouton
@@ -860,11 +872,15 @@ class MyHomePage extends StatelessWidget {
                 appState.annonce += "l'adversaire vous a inflige $calcvie point de degats\n";
                 if(appState.robot.getHealth() <= 0){
                   appState.annonce = "Vous avez perdu !!!";
+                  appState.argentB -=10;
+                  appState.ptsCompetence = 10;
                   appState.closeFight = 1;
                   appState.robot.setHealth(0);
                 }if(appState.botAlea.getHealth() <= 0){
                   appState.annonce = "Vous avez gagne !!!";
                   appState.botAlea.setHealth(0);
+                  appState.argentB +=10;
+                  appState.ptsCompetence = 10;
                   appState.closeFight = 1;
                 }
                 }else if(appState.closeFight==1){
