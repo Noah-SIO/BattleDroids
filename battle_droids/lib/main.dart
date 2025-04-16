@@ -188,11 +188,12 @@ class MyHomePage extends StatelessWidget {
                 print(name);
                 appState.robot = new Robot(name, appState.healthB, appState.attackB, appState.defenceB, appState.argentB);
                 appState.robotnom = name;
-                appState.listeShop = appState.battle.afficherListeObjet();
                 appState.annonce="";
                 appState.alea();
                 appState.closeFight=0;
                 appState.compte=1;
+                appState.battle.resetMap();
+                appState.listeShop = appState.battle.afficherListeObjet();
                 appState.refresh();
               },
               style: ElevatedButton.styleFrom(
@@ -335,7 +336,8 @@ class MyHomePage extends StatelessWidget {
             ),
             ),
             SizedBox(width : 20),
-            ElevatedButton( //ajout d'un button
+            ElevatedButton(
+               //ajout d'un button
                onPressed: () {
               if(appState.ptsCompetence > 0){
                 if(attack <= appState.attackB-1+appState.competencebase){
@@ -1172,7 +1174,8 @@ class Battle{
   }
 
   void resetMap(){
-    _listeObjet = _listeObjet2;
+    _listeObjet = Map.from(_listeObjet2);
+    print(_listeObjet);
   }
 
 }
