@@ -185,7 +185,12 @@ class MyHomePage extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () {
                 String name = nameController.text;
-                print(name);
+                if(name.trim().isEmpty){
+                  name ="Nom vide";
+                }else{
+                  print(name);  
+                }
+                //print(name);
                 appState.robot = new Robot(name, appState.healthB, appState.attackB, appState.defenceB, appState.argentB);
                 appState.robotnom = name;
                 appState.annonce="";
